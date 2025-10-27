@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serviços Já - Versão Melhorada</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary-color: #005f73;
+    --secondary-color: #0a9396;
+    --bg-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --text-color: #212529;
+    --text-light: #6c757d;
+    --border-color: #dee2e6;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+  
+  body { 
+    background-color: var(--bg-color); 
+    color: var(--text-color); 
+    line-height: 1.6;
+  }
+
+  header { 
+    background-color: var(--card-bg); 
+    color: var(--primary-color); 
+    padding: 15px 40px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+  
+  header h1 { 
+    font-size: 1.6rem; 
+    font-weight: 700; 
+  }
+
+  header h1 a {
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+  
+  .btn-cadastrar { 
+    background: var(--primary-color); 
+    color: white; 
+    padding: 10px 18px; 
+    border-radius: 8px; 
+    font-weight: 600; 
+    cursor: pointer; 
+    border: none; 
+    transition: background-color 0.3s; 
+    font-size: 0.9rem;
+  }
+  
+  .btn-cadastrar:hover { background: var(--secondary-color); }
+
+  .header-user {
+    font-weight: 600;
+    color: var(--text-color);
+    margin-right: 15px;
+  }
+  .btn-logout {
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  .btn-logout:hover { text-decoration: underline; }
+
+  main { padding: 40px; max-width: 1200px; margin: auto; }
+
+  .grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); 
+    gap: 25px; 
+  }
+  
+  .card { 
+    background: var(--card-bg); 
+    border-radius: 12px; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+    overflow: hidden; 
+    cursor: pointer; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .card:hover { 
+    transform: translateY(-5px); 
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1); 
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .card-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    flex-shrink: 0;
+  }
+  .card-header h3 {
+    color: var(--primary-color); 
+    font-size: 1.25rem;
+    margin: 0;
+  }
+  
+  .card-content { 
+    padding: 20px; 
+    flex-grow: 1; 
+  }
+  
+  .card-area {
+    display: inline-block;
+    background-color: #e6f7ff;
+    color: var(--primary-color);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  
+  .card-content p { 
+    font-size: 0.95rem; 
+    margin-bottom: 15px; 
+    color: var(--text-light); 
+  }
+  
+  .price { 
+    font-weight: 700; 
+    color: var(--text-color); 
+    font-size: 1.1rem; 
+  }
+
+  .hidden { display: none; }
+  .visible { display: block; }
+  
+  .container { 
+    background: var(--card-bg); 
+    padding: 30px 40px; 
+    border-radius: 15px; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+    max-width: 500px; 
+    margin: auto; 
+  }
+  
+  .container h2 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 25px;
+  }
+  
+  input, select, textarea { 
+    width: 100%; 
+    padding: 12px; 
+    margin: 8px 0 15px 0; 
+    border-radius: 8px; 
+    border: 1px solid var(--border-color); 
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0,95,115,0.1);
+  }
+  
+  button { 
+    width: 100%; 
+    padding: 12px; 
+    border-radius: 8px; 
+    border: none; 
+    background: var(--primary-color); 
+    color: white; 
+    font-weight: 600; 
+    font-size: 1rem;
+    cursor: pointer; 
+    margin-top: 10px; 
+    transition: background-color 0.3s; 
+  }
+  
+  button:hover { background: var(--secondary-color); }
+  
+  button.btn-secondary {
+      background: var(--bg-color);
+      color: var(--primary-color);
+      border: 1px solid var(--primary-color);
+  }
+  button.btn-secondary:hover {
+      background: #e9ecef;
+  }
+
+  .link { 
+    display: block; 
+    text-align: center; 
+    margin-top: 20px; 
+    color: var(--secondary-color); 
+    cursor: pointer; 
+    text-decoration: none; 
+    font-weight: 500;
+  }
+  .link:hover { text-decoration: underline; }
+
+  .profile-card { 
+    background: var(--card-bg); 
+    border-radius: 15px; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+    padding: 40px; 
+    max-width: 800px;
+    margin: auto;
+    text-align: center; 
+  }
+  
+  .avatar { 
+    width: 120px; 
+    height: 120px; 
+    border-radius: 50%; 
+    background-color: var(--primary-color); 
+    color: white; 
+    font-size: 3rem; 
+    font-weight: 700; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    margin: 0 auto 20px auto; 
+    border: 4px solid var(--card-bg);
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+
+  .profile-card h2 {
+      font-size: 2rem;
+      margin-bottom: 5px;
+      color: var(--text-color);
+  }
+  
+  .role { 
+    font-size: 1.1rem; 
+    color: var(--text-light); 
+    margin-bottom: 10px; 
+    font-weight: 500;
+  }
+
+  .profile-card .price {
+      font-size: 1.25rem;
+      color: var(--primary-color);
+      font-weight: 700;
+      margin-bottom: 20px;
+  }
+  
+  .description {
+      font-size: 1rem;
+      color: var(--text-color);
+      max-width: 600px;
+      margin: 0 auto 30px auto;
+  }
+  
+  .skills, .reviews { 
+    background: var(--bg-color); 
+    padding: 20px; 
+    border-radius: 10px; 
+    width: 100%; 
+    text-align: left; 
+    margin-bottom: 25px; 
+    border: 1px solid #e9ecef;
+  }
+  
+  .skills h3, .reviews h3 { 
+    margin-bottom: 15px; 
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 5px;
+    display: inline-block;
+  }
+  
+  .skills li { 
+    margin: 8px 0; 
+    padding-left: 15px; 
+    border-left: 4px solid var(--secondary-color); 
+    font-size: 1rem; 
+    color: var(--text-color); 
+    list-style: none; 
+  }
+  
+  .review { 
+    background: var(--card-bg); 
+    border: 1px solid var(--border-color);
+    padding: 15px; 
+    border-radius: 10px; 
+    margin-bottom: 10px; 
+  }
+  .review-author {
+    font-weight: 600;
+    color: var(--primary-color);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  footer { 
+    text-align: center; 
+    padding: 20px; 
+    margin-top: 40px; 
+    font-size: 0.9rem; 
+    color: var(--text-light);
+    border-top: 1px solid var(--border-color);
+  }
+
+  @media(max-width: 600px){
+    header { 
+      flex-direction: column; 
+      text-align: center; 
+      gap: 15px;
+    }
+    main { padding: 20px; }
+    .container { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1><a href="#" onclick="mostrarTela('home')">Serviços Já</a></h1>
+  <div id="header-auth">
+    <button class="btn-cadastrar" onclick="mostrarTela('cadastro')">Cadastrar-se</button>
+  </div>
+</header>
+
+<main>
+  <section id="home" class="visible">
+    <h2 style="margin-bottom: 20px; font-weight: 600; color: var(--primary-color);">Trabalhadores disponíveis</h2>
+    <div class="grid" id="workerGrid">
+    </div>
+  </section>
+
+  <section id="cadastro" class="hidden">
+    <div class="container">
+      <h2>Criar sua conta</h2>
+      <p style="text-align: center; margin-bottom: 20px; color: var(--text-light);">Escolha seu tipo de cadastro:</p>
+      <button class="btn-secondary" onclick="mostrarTela('cadastroVendedor')">Quero vender serviços</button>
+      <button class="btn-secondary" onclick="mostrarTela('cadastroContratante')">Quero contratar serviços</button>
+      <span class="link" onclick="mostrarTela('home')">Voltar para a home</span>
+    </div>
+  </section>
+
+  <section id="cadastroVendedor" class="hidden">
+    <div class="container">
+      <h2>Cadastro de Vendedor</h2>
+      <input type="text" id="nomeVendedor" placeholder="Nome completo" required>
+      <input type="text" id="areaVendedor" placeholder="Área principal (ex: Eletricista)" required>
+      <input type="text" id="precoVendedor" placeholder="Preço por hora (ex: R$ 80/h)" required>
+      <input type="text" id="servicosVendedor" placeholder="Serviços (ex: Troca de fiação, Instalação)" required>
+      <textarea id="descVendedor" placeholder="Fale um pouco sobre você e seus serviços" rows="4"></textarea>
+      <button onclick="adicionarVendedor()">Cadastrar como Vendedor</button>
+      <span class="link" onclick="mostrarTela('cadastro')">Voltar</span>
+    </div>
+  </section>
+
+  <section id="cadastroContratante" class="hidden">
+    <div class="container">
+      <h2>Cadastro de Contratante</h2>
+      <input type="text" id="nomeContratante" placeholder="Nome completo" required>
+      <input type="text" id="enderecoContratante" placeholder="Seu endereço" required>
+      <input type="text" id="servicoContratante" placeholder="Qual serviço você procura?" required>
+      <button onclick="cadastrarContratante()">Cadastrar como Contratante</button>
+      <span class="link" onclick="mostrarTela('cadastro')">Voltar</span>
+    </div>
+  </section>
+
+  <section id="perfil" class="hidden">
+    <div class="profile-card">
+      <div class="avatar" id="perfilAvatar">JD</div>
+      <h2 id="perfilNome">Nome do Profissional</h2>
+      <p class="role" id="perfilArea">Área de Atuação</p>
+      <p class="price" id="perfilPreco">R$ 80/h</p>
+      <p class="description" id="perfilDesc">Descrição longa dos serviços e experiência.</p>
+
+      <div class="skills">
+        <h3>Serviços Oferecidos</h3>
+        <ul id="perfilServicos">
+        </ul>
+      </div>
+
+      <div class="reviews">
+        <h3>Avaliações de Clientes</h3>
+        <div class="review">
+          <span class="review-author">Maria S. (Contratante)</span>
+          Ótimo profissional! Resolveu meu problema rapidamente e foi muito educado.
+        </div>
+        <div class="review">
+          <span class="review-author">Carlos A. (Contratante)</span>
+          Pontual, competente e o preço foi justo. Recomendo!
+        </div>
+        <div class="review">
+          <span class="review-author">Rafaela P. (Contratante)</span>
+          Atencioso e cuidadoso com a limpeza após o serviço.
+        </div>
+      </div>
+      <button onclick="mostrarTela('home')">Voltar para a busca</button>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>&copy; 2025 Serviços Já — Este é um protótipo sem banco de dados.</p>
+</footer>
+
+<script>
+  let workers = [
+    {nome:"João Silva", area:"Mecânico", preco:"R$ 80/h", desc:"Especialista em troca de óleo, revisão e manutenção preventiva.", servicos:["Troca de óleo","Revisão de freios","Diagnóstico de motor", "Alinhamento"], initials:"JS"},
+    {nome:"Maria Oliveira", area:"Eletricista", preco:"R$ 90/h", desc:"Instalações elétricas residenciais, reparo de tomadas e instalação de chuveiros.", servicos:["Instalação elétrica","Reparo de tomadas","Instalação de chuveiro"], initials:"MO"},
+    {nome:"Carlos Mendes", area:"Pintor", preco:"R$ 75/h", desc:"Serviços de pintura interna e externa com acabamento de primeira.", servicos:["Pintura interna","Pintura externa", "Aplicação de massa corrida"], initials:"CM"},
+    {nome:"Rafaela Costa", area:"Jardinagem", preco:"R$ 60/h", desc:"Cuido do seu jardim com poda, manutenção de gramados e paisagismo.", servicos:["Poda de árvores","Manutenção de jardins","Plantio de mudas"], initials:"RC"}
+  ];
+  
+  let currentUser = null;
+
+  function mostrarTela(id){
+    document.querySelectorAll('section').forEach(sec => sec.className = 'hidden');
+    document.getElementById(id).className = 'visible';
+    
+    if(id === 'home') renderWorkers();
+    
+    window.scrollTo(0, 0);
+  }
+
+  function atualizarHeader() {
+    const authContainer = document.getElementById('header-auth');
+    if (currentUser) {
+      const primeiroNome = currentUser.nome.split(' ')[0];
+      authContainer.innerHTML = `
+        <span class="header-user">Olá, ${primeiroNome}</span>
+        <a href="#" class="btn-logout" onclick="logout()">Sair</a>
+      `;
+    } else {
+      authContainer.innerHTML = `
+        <button class="btn-cadastrar" onclick="mostrarTela('cadastro')">Cadastrar-se</button>
+      `;
+    }
+  }
+
+  function renderWorkers(){
+    const grid = document.getElementById('workerGrid');
+    grid.innerHTML = '';
+    
+    workers.forEach((w, index) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="card-header">
+          <div class="card-avatar">${w.initials}</div>
+          <div>
+            <h3>${w.nome}</h3>
+            <span class="card-area">${w.area}</span>
+          </div>
+        </div>
+        <div class="card-content">
+          <p>${w.desc}</p>
+          <span class="price">${w.preco}</span>
+        </div>`;
+      
+      card.onclick = () => mostrarPerfil(index);
+      grid.appendChild(card);
+    });
+  }
+
+  function mostrarPerfil(index){
+    const w = workers[index];
+    
+    document.getElementById('perfilAvatar').textContent = w.initials;
+    document.getElementById('perfilNome').textContent = w.nome;
+    document.getElementById('perfilArea').textContent = w.area;
+    document.getElementById('perfilPreco').textContent = w.preco;
+    document.getElementById('perfilDesc').textContent = w.desc;
+    
+    const ul = document.getElementById('perfilServicos');
+    ul.innerHTML = '';
+    w.servicos.forEach(s => {
+      const li = document.createElement('li');
+      li.textContent = s;
+      ul.appendChild(li);
+    });
+    
+    mostrarTela('perfil');
+  }
+
+  function adicionarVendedor(){
+    const nome = document.getElementById('nomeVendedor').value;
+    const area = document.getElementById('areaVendedor').value;
+    const desc = document.getElementById('descVendedor').value;
+    const preco = document.getElementById('precoVendedor').value;
+    const servicosInput = document.getElementById('servicosVendedor').value;
+    
+    if(nome && area && desc && preco && servicosInput){
+      const initials = nome.split(' ').map(n => n[0].toUpperCase()).slice(0, 2).join('');
+      const servicos = servicosInput.split(',').map(s => s.trim());
+      
+      workers.push({nome, area, desc, preco, servicos, initials});
+      
+      currentUser = { nome: nome, tipo: 'vendedor' };
+      
+      alert('Vendedor cadastrado com sucesso!');
+      atualizarHeader();
+      mostrarTela('home');
+      
+      document.getElementById('nomeVendedor').value = '';
+      document.getElementById('areaVendedor').value = '';
+      document.getElementById('descVendedor').value = '';
+      document.getElementById('precoVendedor').value = '';
+      document.getElementById('servicosVendedor').value = '';
+
+    } else {
+      alert('Por favor, preencha todos os campos!');
+    }
+  }
+  
+  function cadastrarContratante() {
+    const nome = document.getElementById('nomeContratante').value;
+    const endereco = document.getElementById('enderecoContratante').value;
+    const servico = document.getElementById('servicoContratante').value;
+
+    if (!nome || !endereco || !servico) {
+      alert('Por favor, preencha todos os campos!');
+      return;
+    }
+
+    currentUser = { nome: nome, tipo: 'contratante' };
+    
+    alert('Cadastro de contratante realizado com sucesso!');
+    atualizarHeader();
+    mostrarTela('home');
+    
+    document.getElementById('nomeContratante').value = '';
+    document.getElementById('enderecoContratante').value = '';
+    document.getElementById('servicoContratante').value = '';
+  }
+  
+  function logout() {
+    currentUser = null;
+    atualizarHeader();
+    mostrarTela('home');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderWorkers();
+    atualizarHeader();
+  });
+</script>
+
+</body>
+</html>
